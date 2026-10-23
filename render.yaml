@@ -1,0 +1,18 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: Render Dashboard -> New + -> Blueprint -> pick this repo -> Apply.
+# Or use the dashboard's Web Service form with the same build/start commands.
+services:
+  - type: web
+    name: codeguard
+    runtime: python
+    plan: free                     # 'starter' avoids free-tier spin-down (see DEPLOYMENT.md)
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /health
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn codeguard.api:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: PYTHON_VERSION        # scikit-learn / scipy / numpy all have 3.12 wheels
+        value: "3.12.8"
+      - key: CODEGUARD_ML_POLICY   # always | early_exit | on_no_evidence
+        value: early_exit

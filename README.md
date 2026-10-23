@@ -280,6 +280,7 @@ in &lt; 2 s (soft ReDoS guards + hard timeout).
 | `PyYAML` | ≥6.0 | MIT | YAML parsing (`compose_all`, never `load`) |
 | `sqlglot` | ≥20 | MIT | SQL AST parsing |
 | `markdown-it-py` | ≥3.0 | MIT | Markdown parsing |
+| `python-multipart` | ≥0.0.9 | Apache-2.0 | CSV file upload parsing |
 
 No pretrained weights, no LLM, no external API calls.
 
@@ -290,7 +291,8 @@ No pretrained weights, no LLM, no external API calls.
 ```
 d:\hackathon\
 ├── LICENSE                 ← MIT
-├── .gitignore  .env.example  requirements.txt  Makefile
+├── .gitignore  .gitattributes  .env.example  requirements.txt  Makefile
+├── render.yaml  Dockerfile  .dockerignore   ← one-click deploy (Render / Docker)
 ├── README.md               ← this file
 ├── writeup.md  RUN.md
 ├── guard.py                ← CLI entry (wraps codeguard.guard)

@@ -66,6 +66,36 @@ Deploy the repo (or just the container) to any VM/PaaS and run the uvicorn comma
 above with a process supervisor; the committed `models/ml.joblib` (3.2 MB) makes
 it work with no extra build step.
 
+### e. Render (recommended managed option)
+
+The repo ships a **`render.yaml`** Blueprint and a **`Dockerfile`**.
+
+1. Repo is already at `https://github.com/shreyash-2006/CodeGuard`.
+2. Render Dashboard → **New +** → **Blueprint** → pick the repo → **Apply**
+   (uses `render.yaml`). Or **New +** → **Web Service** with:
+   * Runtime: **Python**
+   * Build command: `pip install --upgrade pip && pip install -r requirements.txt`
+   * Start command: `uvicorn codeguard.api:app --host 0.0.0.0 --port $PORT --workers 1`
+   * Health check path: `/health`
+   * Environment: `PYTHON_VERSION=3.12.8`
+3. Render provides `https://<name>.onrender.com` over HTTPS — submit that URL.
+
+**Footprint (measured on this project):** ~**180 MB RSS** after model load;
+`models/ml.joblib` is **3.2 MB** and loads in ~0.08 s; ~17.5 ms/request warm.
+The free instance (512 MB, 0.1 CPU) is sufficient for typical snippets.
+
+**Free-tier caveat:** Render free web services **spin down after ~15 min idle**,
+so the first request after a gap pays a cold start (imports + model load; expect
+~10–25 s on 0.1 CPU). For the evaluation window either:
+* keep it warm with an external pinger (UptimeRobot, cron-job.org) hitting
+  `https://<name>.onrender.com/health` every ~10 min, **or**
+* use a **Starter** instance (~$7/mo) which does not spin down, **or**
+* use a tunnel from an always-on machine (§2a) instead.
+
+> **Reference:** the repo is public, dependency-light (all pure-Python wheels,
+> no GPU, no system packages), and self-contained (model committed), so
+> Render's Python runtime builds it with no extra configuration.
+
 > **Keep it alive:** run the app and the tunnel under a supervisor (e.g.
 > `nssm`, `pm2`, `systemd`, or Docker `restart: always`), and point uptime
 > monitoring at `/health`.

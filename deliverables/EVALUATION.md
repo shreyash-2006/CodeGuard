@@ -107,6 +107,9 @@ and mixed-encoding inputs; deterministic across repeated runs.
 No pretrained weights, no GPU, no external calls. The artifact is dominated by
 the TF-IDF vocabularies; the classifiers themselves are tiny (linear models).
 
+**Runtime footprint:** ~180 MB RSS after model load, 0.08 s to load the model,
+~17.5 ms/request warm — fits a 512 MB Render free instance.
+
 ### Latency (500 warm sequential requests, typical snippets < 5 KB)
 
 | | p50 | p95 | p99 |
