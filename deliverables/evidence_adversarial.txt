@@ -1,9 +1,16 @@
-========================================================
+============================================================
   CODEGUARD ADVERSARIAL ROBUSTNESS
-========================================================
-  mutations evaluated : 180
-  still blocked       : 177
-  survival rate       : 0.983   (target >= 0.90)
+============================================================
+  malicious mutations : 180   still blocked: 177
+  benign mutations    : 72   blocked (FP): 1
+  mutation survival   : 0.983   (target >= 0.90)
+
+  combined verdict metrics : TP=177 FP=1 TN=71 FN=3
+    Precision : 0.9944
+    Recall    : 0.9833
+    F1        : 0.9888
+    FPR       : 0.0139
+    p95 latency (mal / benign): 28.2 ms / 23.5 ms
 
   per-category survival:
     ai_targeted_instructions       1.000  (24/24)
@@ -15,5 +22,5 @@
     resource_exhaustion            1.000  (18/18)
     secret_access                  1.000  (24/24)
     ssrf_network_exfil             1.000  (12/12)
-========================================================
+============================================================
   RESULT: PASS

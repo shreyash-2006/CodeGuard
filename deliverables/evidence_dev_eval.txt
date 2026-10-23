@@ -16,14 +16,14 @@ Loading dev sample from: codeguard_dev.jsonl
     Accuracy  : 1.0000
 
   Per-category F1:
-    obfuscated_execution                F1=1.000 P=1.000 R=1.000 (TP=5 FP=0 FN=0) ####################
-    destructive_command                 F1=1.000 P=1.000 R=1.000 (TP=5 FP=0 FN=0) ####################
-    ai_targeted_instructions            F1=1.000 P=1.000 R=1.000 (TP=4 FP=0 FN=0) ####################
-    secret_access                       F1=1.000 P=1.000 R=1.000 (TP=4 FP=0 FN=0) ####################
     resource_exhaustion                 F1=1.000 P=1.000 R=1.000 (TP=3 FP=0 FN=0) ####################
+    ai_targeted_instructions            F1=1.000 P=1.000 R=1.000 (TP=4 FP=0 FN=0) ####################
+    obfuscated_execution                F1=1.000 P=1.000 R=1.000 (TP=5 FP=0 FN=0) ####################
+    secret_access                       F1=1.000 P=1.000 R=1.000 (TP=4 FP=0 FN=0) ####################
+    ssrf_network_exfil                  F1=1.000 P=1.000 R=1.000 (TP=3 FP=0 FN=0) ####################
+    destructive_command                 F1=1.000 P=1.000 R=1.000 (TP=5 FP=0 FN=0) ####################
     persistence_or_privesc              F1=1.000 P=1.000 R=1.000 (TP=2 FP=0 FN=0) ####################
     data_exfiltration                   F1=1.000 P=1.000 R=1.000 (TP=3 FP=0 FN=0) ####################
-    ssrf_network_exfil                  F1=1.000 P=1.000 R=1.000 (TP=3 FP=0 FN=0) ####################
     dependency_risk                     F1=0.857 P=0.750 R=1.000 (TP=3 FP=1 FN=0) #################
 
   Language detection accuracy:

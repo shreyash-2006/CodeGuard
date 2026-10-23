@@ -83,6 +83,37 @@ def main() -> int:
     # Per-stage from one detailed run
     _, diag = analyze_detailed(snippets[0], model=model)
     print(f"\n  per-stage (one run): {diag.get('timings_ms')}")
+
+    # Per-suite p95 (typical snippets, warm)
+    suites = [
+        ("dev sample", _DEV),
+        ("held-out test", _ROOT / "datagen" / "out" / "test.jsonl"),
+    ]
+    print("\n  per-suite latency (warm, p50 / p95):")
+    for label, path in suites:
+        if not path.exists():
+            print(f"    {label:<15s} (dataset not present — skipped)")
+            continue
+        codes = []
+        import json
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                try:
+                    codes.append(json.loads(line)["code"])
+                except Exception:
+                    pass
+        if not codes:
+            continue
+        for c in codes[:10]:
+            analyze(c, model=model)
+        t = []
+        for c in codes:
+            t0 = time.perf_counter()
+            analyze(c, model=model)
+            t.append((time.perf_counter() - t0) * 1000.0)
+        t.sort()
+        print(f"    {label:<15s} n={len(codes):<4d} p50={_pct(t, 0.50):.1f} ms  p95={_pct(t, 0.95):.1f} ms")
+
     print("=" * 56)
 
     ok = p95 < 100.0

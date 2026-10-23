@@ -24,7 +24,7 @@
     stdout: [safe] Marker written to C:\Users\Shreyash\AppData\Local\Temp\codeguard_demo_safe_marker.txt
   [OK] ASSERTION PASSED: safe snippet was allowed
   [OK] ASSERTION PASSED: marker file created: C:\Users\Shreyash\AppData\Local\Temp\codeguard_demo_safe_marker.txt
-    content: CodeGuard allowed at 2026-10-24 02:09:54.390870
+    content: CodeGuard allowed at 2026-10-24 03:12:29.588856
   [OK] ASSERTION PASSED: categories=[] (empty)
   [OK] ASSERTION PASSED: risk_score=0.1491 < 0.5
 

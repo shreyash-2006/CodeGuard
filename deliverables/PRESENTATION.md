@@ -133,19 +133,19 @@ ssrf_network_exfil · ai_targeted_instructions · dependency_risk`
 ### Slide 8 — Results
 **On slide:**
 
-| Metric | Dev sample (42) | Held-out (family split) |
-|---|---|---|
-| Precision / Recall / F1 | **1.000 / 1.000 / 1.000** | 1.000 / 0.984 / **0.992** |
-| False positives | **0** | **0** |
-| FPR | 0.000 | 0.000 |
-| Adversarial survival | — | **0.983** |
-| Latency p50 / p95 | 17 ms / 24 ms | typical < 5 KB |
-| Model | 3.2 MB · ~180 MB RSS | no GPU |
+| Dataset | Precision | Recall | F1 | FPR | p95 |
+|---|---|---|---|---|---|
+| Public dev sample (42) | **1.000** | **1.000** | **1.000** | **0.00%** | 22.5 ms |
+| Held-out (family split) | 1.000 | 0.984 | **0.992** | **0.00%** | 20.6 ms |
+| Adversarial mutated (180 mal + 72 benign) | 0.994 | 0.983 | 0.989 | 1.39% | 24.9 ms |
+
+Model 3.2 MB (joblib) · ~180 MB RSS · no GPU.
 
 > **Say:** "On the public dev sample: perfect precision and recall, zero false
 > positives, all six languages detected. On a held-out, family-split synthetic test
-> — no family shared with training — F1 0.992 and zero FPR. Mutation-robustness is
-> 98.3%, and p95 latency is 24 milliseconds."
+> — no family shared with training — F1 0.992 and zero FPR. Under mutation, precision
+> 0.994 / recall 0.983 / FPR 1.4%, and p95 latency stays in the low tens of
+> milliseconds."
 
 ### Slide 9 — Key design decisions
 **On slide:**

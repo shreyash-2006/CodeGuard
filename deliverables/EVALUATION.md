@@ -83,10 +83,17 @@ Per-category F1: `data_exfiltration`, `obfuscated_execution`,
 
 ## 3. Robustness
 
-**Adversarial mutation survival** (`eval/adversarial.py`): 177/180 = **0.983**
-(target ≥ 0.90). Format-preserving mutations (comments, whitespace, identifier
-renames, string splitting, embedding in fences/YAML `run:` blocks) do not break
-detection. Weakest category: `obfuscated_execution` 0.900 (3/30 mutations evade).
+**Adversarial mutation survival** (`eval/adversarial.py`): **177/180 = 0.983**
+(target ≥ 0.90) on malicious snippets; **1/72** benign mutations blocked. Combined
+over the mutated suite (180 malicious + 72 benign mutations):
+
+| TP | FP | TN | FN | Precision | Recall | F1 | FPR |
+|---|---|---|---|---|---|---|---|
+| 177 | 1 | 71 | 3 | **0.994** | **0.983** | **0.989** | **1.39%** |
+
+Format-preserving mutations (comments, whitespace, identifier renames, string
+splitting, embedding in fences/YAML `run:` blocks) do not break detection.
+Weakest category: `obfuscated_execution` **0.900** (3/30 mutations evade).
 
 **Fuzzing** (`tests/fuzz_test.py`, `scripts/selfcheck.py`): 1000/1000 responses
 schema-valid across empty, `None`, binary, 1e5-line, nested-bracket, huge-line
@@ -110,11 +117,14 @@ the TF-IDF vocabularies; the classifiers themselves are tiny (linear models).
 **Runtime footprint:** ~180 MB RSS after model load, 0.08 s to load the model,
 ~17.5 ms/request warm — fits a 512 MB Render free instance.
 
-### Latency (500 warm sequential requests, typical snippets < 5 KB)
+### Latency (warm, sequential; typical snippets < 5 KB)
 
-| | p50 | p95 | p99 |
+| Suite | n | p50 | p95 |
 |---|---|---|---|
-| **Total** | **17.5 ms** | **24.2 ms** | **30.4 ms** |
+| Mixed typical snippets | 500 | 19.3 ms | 24.7 ms (p99 31.4 ms) |
+| Dev sample | 42 | 19.6 ms | 22.5 ms |
+| Held-out test | 378 | 16.1 ms | 20.6 ms |
+| Adversarial mutated | 252 | — | 24.9 ms (malicious) / 28.1 ms (benign) |
 
 Per-stage (one run): `preprocess 0.01 · langid 0.03 · segment 0.02 ·
 deobfuscate 0.03 · parse 0.04 · detectors 0.50 · **ml 11.58** · fusion 0.01 ·

@@ -14,35 +14,11 @@
     "accuracy": 1.0
   },
   "per_category": {
-    "obfuscated_execution": {
+    "resource_exhaustion": {
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
-      "tp": 5,
-      "fp": 0,
-      "fn": 0
-    },
-    "destructive_command": {
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "tp": 5,
-      "fp": 0,
-      "fn": 0
-    },
-    "ai_targeted_instructions": {
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "tp": 4,
-      "fp": 0,
-      "fn": 0
-    },
-    "secret_access": {
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "tp": 4,
+      "tp": 3,
       "fp": 0,
       "fn": 0
     },
@@ -54,11 +30,43 @@
       "fp": 1,
       "fn": 0
     },
-    "resource_exhaustion": {
+    "ai_targeted_instructions": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tp": 4,
+      "fp": 0,
+      "fn": 0
+    },
+    "obfuscated_execution": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0
+    },
+    "secret_access": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tp": 4,
+      "fp": 0,
+      "fn": 0
+    },
+    "ssrf_network_exfil": {
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
       "tp": 3,
+      "fp": 0,
+      "fn": 0
+    },
+    "destructive_command": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tp": 5,
       "fp": 0,
       "fn": 0
     },
@@ -71,14 +79,6 @@
       "fn": 0
     },
     "data_exfiltration": {
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "tp": 3,
-      "fp": 0,
-      "fn": 0
-    },
-    "ssrf_network_exfil": {
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
