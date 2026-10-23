@@ -438,3 +438,44 @@ th { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; }
     width: 30px;
     user-select: none;
 }
+
+/* ── Layout safety ──────────────────────────────────────────────────────────
+   Grid/flex children default to `min-width: auto`, so wide unbreakable content
+   (e.g. a very long code line with `white-space: pre`) would otherwise expand
+   the column and widen the whole page. Force them to shrink and scroll instead. */
+.analysis-container > *,
+.batch-container,
+.input-panel,
+.result-panel {
+    min-width: 0;
+}
+
+.editor-wrapper textarea {
+    min-width: 0;
+}
+
+#code-viewer,
+.code-viewer,
+.code-viewer-container {
+    max-width: 100%;
+}
+
+.code-viewer {
+    overflow-x: auto;
+    overflow-wrap: normal;
+}
+
+/* Long tokens (URLs, base64, reasons) must wrap, not widen the page */
+#reason-text,
+.diagnostics p,
+.evidence-row,
+.evidence-list,
+#batch-summary,
+.batch-summary {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.batch-results {
+    max-width: 100%;
+}
