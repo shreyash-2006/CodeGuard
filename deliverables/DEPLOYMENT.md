@@ -7,6 +7,10 @@ with a public endpoint URL submitted to the organizer before the evaluation wind
 
 ## 1. Run locally
 
+**Live deployment (already submitted):** <https://codeguard-bdmu.onrender.com/ui/>
+— judge endpoint `POST https://codeguard-bdmu.onrender.com/check`, health
+`GET https://codeguard-bdmu.onrender.com/health`.
+
 ```bash
 pip install -r requirements.txt
 python -m uvicorn codeguard.api:app --host 0.0.0.0 --port 8000 --workers 1

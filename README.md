@@ -2,6 +2,8 @@
 
 **CPU-only code security analysis API.** Detects 9 categories of malicious code patterns using intent/story-based rules + a calibrated TF-IDF ML classifier. No external LLM calls anywhere.
 
+**🔗 Live deployment:** dashboard **<https://codeguard-bdmu.onrender.com/ui/>** · judge endpoint **`POST https://codeguard-bdmu.onrender.com/check`** · health **<https://codeguard-bdmu.onrender.com/health>**
+
 ---
 
 ## Quick Start

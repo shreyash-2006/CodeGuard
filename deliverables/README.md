@@ -3,6 +3,10 @@
 CodeGuard accepts a code string and returns a fixed-schema allow/block verdict —
 **before the code runs**. CPU-only, fully local, **no LLM calls anywhere**.
 
+**🔗 Live deployment:** dashboard **<https://codeguard-bdmu.onrender.com/ui/>** ·
+judge endpoint **`POST https://codeguard-bdmu.onrender.com/check`** ·
+health **`GET https://codeguard-bdmu.onrender.com/health`**
+
 ```
 POST /check  {"code": "..."}  ->  {"verdict","risk_score","categories","code_language","reason","vulnerable_lines"}
 ```
