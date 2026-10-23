@@ -1,0 +1,40 @@
+Loading dev sample from: codeguard_dev.jsonl
+
+============================================================
+  CODEGUARD DEV-SAMPLE EVALUATION REPORT
+============================================================
+  Total snippets : 42
+  Malicious      : 30
+  Benign         : 12
+
+  Verdict-level metrics:
+    TP=30  FP=0  TN=12  FN=0
+    Precision : 1.0000
+    Recall    : 1.0000
+    F1        : 1.0000
+    FPR       : 0.0000  (benign false-positive rate)
+    Accuracy  : 1.0000
+
+  Per-category F1:
+    obfuscated_execution                F1=1.000 P=1.000 R=1.000 (TP=5 FP=0 FN=0) ####################
+    destructive_command                 F1=1.000 P=1.000 R=1.000 (TP=5 FP=0 FN=0) ####################
+    ai_targeted_instructions            F1=1.000 P=1.000 R=1.000 (TP=4 FP=0 FN=0) ####################
+    secret_access                       F1=1.000 P=1.000 R=1.000 (TP=4 FP=0 FN=0) ####################
+    resource_exhaustion                 F1=1.000 P=1.000 R=1.000 (TP=3 FP=0 FN=0) ####################
+    persistence_or_privesc              F1=1.000 P=1.000 R=1.000 (TP=2 FP=0 FN=0) ####################
+    data_exfiltration                   F1=1.000 P=1.000 R=1.000 (TP=3 FP=0 FN=0) ####################
+    ssrf_network_exfil                  F1=1.000 P=1.000 R=1.000 (TP=3 FP=0 FN=0) ####################
+    dependency_risk                     F1=0.857 P=0.750 R=1.000 (TP=3 FP=1 FN=0) #################
+
+  Language detection accuracy:
+    python          1.000
+    bash            1.000
+    sql             1.000
+    javascript      1.000
+    yaml            1.000
+    markdown        1.000
+
+  Per-item misclassifications:
+============================================================
+
+JSON report written to: D:\hackathon\eval\eval_report.json

@@ -1,0 +1,440 @@
+:root {
+    --bg-color: #0d1117;
+    --panel-bg: #161b22;
+    --border-color: #30363d;
+    --text-color: #c9d1d9;
+    --text-dim: #8b949e;
+    --primary-color: #238636;
+    --primary-hover: #2ea043;
+    --error-color: #f85149;
+    --warning-color: #d29922;
+    --success-color: #3fb950;
+    --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+header {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--panel-bg);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: var(--text-dim);
+}
+
+.health-indicator {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    background-color: #6e7681;
+}
+
+.dot.online { background-color: var(--success-color); }
+.dot.offline { background-color: var(--error-color); }
+
+nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: background 0.2s;
+}
+
+.tab-btn:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.tab-btn.active {
+    color: var(--text-color);
+    background-color: var(--border-color);
+    font-weight: 600;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Analysis Tab */
+.analysis-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 900px) {
+    .analysis-container {
+        grid-template-columns: 1.2fr 0.8fr;
+    }
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.editor-wrapper {
+    display: flex;
+    background-color: #010409;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    height: 400px;
+    overflow: hidden;
+}
+
+.line-numbers {
+    padding: 0.5rem;
+    background-color: #0d1117;
+    color: #484f58;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    user-select: none;
+    min-width: 40px;
+    border-right: 1px solid var(--border-color);
+}
+
+textarea {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 0.5rem;
+    resize: none;
+    outline: none;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--panel-bg);
+    color: var(--text-color);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: #21262d;
+    border-color: #8b949e;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    border-color: rgba(240,246,252,0.1);
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Result Panel */
+.result-panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1.5rem;
+    align-self: start;
+}
+
+.hidden { display: none !important; }
+
+.verdict-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.badge {
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.badge.allow { background-color: var(--success-color); color: #fff; }
+.badge.block { background-color: var(--error-color); color: #fff; }
+
+.risk-info { font-weight: 600; }
+.latency-info { color: var(--text-dim); font-size: 0.875rem; }
+
+.risk-gauge-container {
+    margin-bottom: 1.5rem;
+}
+
+.risk-gauge {
+    height: 12px;
+    background-color: #0d1117;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.risk-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease;
+    background: linear-gradient(to right, var(--success-color), var(--warning-color), var(--error-color));
+}
+
+.threshold-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #fff;
+    opacity: 0.5;
+}
+
+.category-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.chip {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    background-color: #388bfd26;
+    color: #58a6ff;
+    border: 1px solid #388bfd66;
+}
+
+.reason-container h3 {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-dim);
+}
+
+#reason-text {
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+}
+
+.code-viewer-container h3 {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-dim);
+}
+
+.code-viewer {
+    background-color: #010409;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.vulnerable-line {
+    background-color: rgba(248, 81, 73, 0.15);
+    border-left: 2px solid var(--error-color);
+    display: block;
+    margin: 0 -0.5rem;
+    padding: 0 0.5rem;
+}
+
+/* Batch Table */
+#batch-input {
+    width: 100%;
+    height: 200px;
+    background-color: #010409;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.batch-results {
+    margin-top: 2rem;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; }
+
+/* Batch CSV additions */
+.hint {
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+    margin-top: 0.35rem;
+}
+
+.hint code {
+    background-color: #010409;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 0 0.25rem;
+    font-family: var(--font-mono);
+}
+
+.batch-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+}
+
+.summary-item strong { color: var(--text-dim); }
+
+/* Interception */
+.intercept-results {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.banner {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.banner.pass { background-color: var(--success-color); }
+.banner.fail { background-color: var(--error-color); }
+
+/* Controls / toggle */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Diagnostics panel */
+.diagnostics {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.diagnostics h3 {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-dim);
+}
+
+.diagnostics p {
+    font-size: 0.8125rem;
+    margin-bottom: 0.35rem;
+    word-break: break-word;
+}
+
+.evidence-list {
+    margin-top: 0.5rem;
+    background-color: #010409;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+
+.evidence-row {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 0.15rem 0;
+}
+
+/* Line-number gutter inside the code viewer */
+.code-viewer .ln {
+    color: #484f58;
+    display: inline-block;
+    width: 30px;
+    user-select: none;
+}

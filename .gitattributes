@@ -1,0 +1,17 @@
+# Normalize line endings for text files
+* text=auto eol=lf
+
+# Binary assets
+*.docx binary
+*.joblib binary
+*.pkl binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+
+# Keep shell/batch scripts with explicit endings
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf

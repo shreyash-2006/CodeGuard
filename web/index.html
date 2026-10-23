@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeGuard — Real-time Code Security</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="header-content">
+            <div class="title-group">
+                <h1>CodeGuard</h1>
+                <p class="subtitle">Real-time pre-execution safety for LLM-generated code</p>
+            </div>
+            <div id="health-indicator" class="health-indicator">
+                <span class="dot"></span>
+                <span class="status-text">Checking health...</span>
+            </div>
+        </div>
+        <nav>
+            <button class="tab-btn active" data-tab="check">Check</button>
+            <button class="tab-btn" data-tab="batch">Batch</button>
+            <button class="tab-btn" data-tab="intercept">Interception Demo</button>
+            <button class="tab-btn" data-tab="about">About</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Tab 1: Check -->
+        <section id="check-tab" class="tab-content active">
+            <div class="analysis-container">
+                <div class="input-panel">
+                    <div class="panel-header">
+                        <label for="code-input">Code Snippet</label>
+                        <div class="controls">
+                            <select id="language-select">
+                                <option value="auto">Auto-detect</option>
+                                <option value="python">Python</option>
+                                <option value="bash">Bash</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="sql">SQL</option>
+                                <option value="yaml">YAML</option>
+                                <option value="markdown">Markdown</option>
+                            </select>
+                            <label class="toggle">
+                                <input type="checkbox" id="deep-toggle">
+                                Deep analysis
+                            </label>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="line-numbers" id="line-numbers"></div>
+                        <textarea id="code-input" placeholder="Paste code here..." spellcheck="false"></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button id="analyze-btn" class="primary-btn">Analyze</button>
+                        <button id="clear-btn">Clear</button>
+                        <button id="load-safe-btn">Load Safe Sample</button>
+                        <button id="load-unsafe-btn">Load Unsafe Sample</button>
+                    </div>
+                </div>
+
+                <div id="result-panel" class="result-panel hidden">
+                    <div class="verdict-header">
+                        <div id="verdict-badge" class="badge">ALLOW</div>
+                        <div class="risk-info">
+                            <span class="risk-label">Risk Score:</span>
+                            <span id="risk-value">0.00</span>
+                        </div>
+                        <div class="latency-info">
+                            <span id="latency-value">0</span>ms
+                        </div>
+                    </div>
+                    
+                    <div class="risk-gauge-container">
+                        <div class="risk-gauge">
+                            <div id="risk-bar" class="risk-bar"></div>
+                            <div class="threshold-marker" style="left: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <div id="category-chips" class="category-chips"></div>
+
+                    <div class="reason-container">
+                        <h3>Reason</h3>
+                        <p id="reason-text"></p>
+                    </div>
+
+                    <div class="code-viewer-container">
+                        <h3>Vulnerable Lines</h3>
+                        <div id="code-viewer" class="code-viewer"></div>
+                    </div>
+
+                    <div id="diagnostics-container" class="diagnostics hidden">
+                        <h3>Diagnostics</h3>
+                        <div id="diagnostics-body"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: Batch -->
+        <section id="batch-tab" class="tab-content">
+            <div class="batch-container">
+                <h2>Batch Analysis</h2>
+                <p>Analyze many snippets at once — paste JSON, JSONL, or <strong>CSV</strong>, or upload a file.</p>
+                <p class="hint">
+                    CSV needs a <code>code</code> column (aliases: snippet / text / content / input).
+                    Optional: <code>id</code>, <code>language</code>, and a gold column
+                    (<code>labels</code> / <code>categories</code>) with a category list or 1/0, true/false,
+                    malicious/benign — when present you get precision/recall/F1/FPR.
+                </p>
+                <textarea id="batch-input" placeholder='Paste CSV (code,labels) — or JSON [{"id":"1","code":"print(1)"}] — or one snippet per line' spellcheck="false"></textarea>
+                <div class="button-group">
+                    <button id="run-batch-btn" class="primary-btn">Run Batch</button>
+                    <input type="file" id="batch-file" accept=".csv,.jsonl,.json,.txt,text/csv" class="hidden">
+                    <button id="upload-btn">Upload CSV / JSONL</button>
+                    <button id="download-batch-btn" disabled>Download results CSV</button>
+                </div>
+                <div id="batch-summary" class="batch-summary hidden"></div>
+                <div id="batch-results" class="batch-results">
+                    <table id="batch-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Verdict</th>
+                                <th>Risk</th>
+                                <th>Categories</th>
+                                <th>Language</th>
+                                <th>Gold</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: Interception Demo -->
+        <section id="intercept-tab" class="tab-content">
+            <div class="intercept-container">
+                <h2>Interception Proof</h2>
+                <p>Demonstrates that CodeGuard actually prevents execution of malicious code.</p>
+                <button id="run-intercept-btn" class="primary-btn">Run Interception Proof</button>
+                <div id="intercept-results" class="intercept-results hidden">
+                    <div id="intercept-banner" class="banner">PASS</div>
+                    <div id="intercept-details"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: About -->
+        <section id="about-tab" class="tab-content">
+            <div class="about-container">
+                <h2>About CodeGuard</h2>
+                <p>CodeGuard is a lightweight, local checkpoint that analyzes AI-generated code <strong>before</strong> it runs. It uses a combination of rule-based intent detection and a local ML model (TF-IDF + Logistic Regression) to provide high-accuracy safety verdicts.</p>
+                
+                <h3>Architecture</h3>
+                <ul>
+                    <li><strong>Backend:</strong> FastAPI (Python)</li>
+                    <li><strong>Analysis:</strong> Preprocess → LangID → Deobfuscate → Rules → ML → Fusion → Explain</li>
+                    <li><strong>Inference:</strong> CPU-only, scikit-learn</li>
+                </ul>
+
+                <h3>Latency</h3>
+                <p>Targets p50 &lt; 20ms, p95 &lt; 100ms for typical snippets. Measured p50 ≈ 6 ms, p95 ≈ 18 ms.</p>
+
+                <h3>Model</h3>
+                <ul>
+                    <li>TF-IDF char n-gram (2–4) → One-vs-Rest Logistic Regression</li>
+                    <li>Artifact ≈ 1.1 MB, loaded once at startup (<code>models_loaded</code> on <code>/health</code>)</li>
+                    <li>Missing/corrupt model ⇒ automatic rules-only degrade</li>
+                </ul>
+
+                <h3>Components &amp; Licenses</h3>
+                <ul>
+                    <li>FastAPI — MIT</li>
+                    <li>Uvicorn — BSD-3</li>
+                    <li>scikit-learn — BSD-3</li>
+                    <li>numpy — BSD-3</li>
+                    <li>pydantic — MIT</li>
+                </ul>
+
+                <h3>Limitations</h3>
+                <ul>
+                    <li>Heuristic language ID and regex rules; not a full compiler/AST analysis.</li>
+                    <li>Deobfuscation covers base64/hex/chr/alias/concat (not arbitrary crypto).</li>
+                    <li>No external LLM calls; fully local and offline.</li>
+                </ul>
+
+                <h3>Compliance</h3>
+                <p>No external LLM calls. Fully local. API version <span id="about-version">—</span>.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js?v=3"></script>
+</body>
+</html>

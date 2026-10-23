@@ -1,0 +1,11 @@
+{
+  "ai_targeted_instructions": 0.72,
+  "data_exfiltration": 0.72,
+  "dependency_risk": 0.72,
+  "destructive_command": 0.72,
+  "obfuscated_execution": 0.72,
+  "persistence_or_privesc": 0.72,
+  "resource_exhaustion": 0.72,
+  "secret_access": 0.72,
+  "ssrf_network_exfil": 0.72
+}

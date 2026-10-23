@@ -1,0 +1,19 @@
+========================================================
+  CODEGUARD ADVERSARIAL ROBUSTNESS
+========================================================
+  mutations evaluated : 180
+  still blocked       : 177
+  survival rate       : 0.983   (target >= 0.90)
+
+  per-category survival:
+    ai_targeted_instructions       1.000  (24/24)
+    data_exfiltration              1.000  (18/18)
+    dependency_risk                1.000  (12/12)
+    destructive_command            1.000  (30/30)
+    obfuscated_execution           0.900  (27/30)
+    persistence_or_privesc         1.000  (12/12)
+    resource_exhaustion            1.000  (18/18)
+    secret_access                  1.000  (24/24)
+    ssrf_network_exfil             1.000  (12/12)
+========================================================
+  RESULT: PASS

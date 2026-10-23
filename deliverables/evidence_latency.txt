@@ -1,0 +1,11 @@
+========================================================
+  CODEGUARD LATENCY
+========================================================
+  snippets measured : 500 (warm, sequential)
+  p50 :   17.69 ms
+  p95 :   24.03 ms   (target < 100 ms)
+  p99 :   35.59 ms
+
+  per-stage (one run): {'preprocess_ms': 0.012, 'langid_ms': 0.028, 'segment_ms': 0.021, 'deobfuscate_ms': 0.029, 'parse_ms': 0.042, 'detectors_ms': 0.505, 'ml_ms': 12.525, 'fusion_ms': 0.033, 'explain_ms': 0.022}
+========================================================
+  RESULT: PASS

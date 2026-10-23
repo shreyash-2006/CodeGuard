@@ -1,0 +1,49 @@
+
+============================================================
+  CodeGuard - Interception Demo
+============================================================
+  Loading model (may train on first run)...
+  Model ready: True
+
+== Scenario 1: MALICIOUS snippet (must be blocked) ==
+  Code uses fake hardcoded AWS keys + POST to TEST-NET exfil endpoint.
+
+  [guard] BLOCKED (malicious)
+    risk_score : 0.9899
+    categories : ['secret_access', 'ssrf_network_exfil']
+    reason     : Blocked: secret_access - Hardcoded credential/API key found in source (T1552.001) (line 5); ssrf_net
+  [OK] ASSERTION PASSED: malicious snippet was blocked
+  [OK] ASSERTION PASSED: marker file was NOT created
+  [OK] ASSERTION PASSED: categories non-empty: ['secret_access', 'ssrf_network_exfil']
+  [OK] ASSERTION PASSED: risk_score=0.9899 >= 0.5
+
+== Scenario 2: SAFE snippet (must be allowed) ==
+  Code writes a timestamped marker file - benign I/O.
+
+  [guard] ALLOWED (safe) - launching subprocess...
+    stdout: [safe] Marker written to C:\Users\Shreyash\AppData\Local\Temp\codeguard_demo_safe_marker.txt
+  [OK] ASSERTION PASSED: safe snippet was allowed
+  [OK] ASSERTION PASSED: marker file created: C:\Users\Shreyash\AppData\Local\Temp\codeguard_demo_safe_marker.txt
+    content: CodeGuard allowed at 2026-10-24 02:09:54.390870
+  [OK] ASSERTION PASSED: categories=[] (empty)
+  [OK] ASSERTION PASSED: risk_score=0.1491 < 0.5
+
+== Scenario 3: FAIL-CLOSED path ==
+  Simulates an engine error; result must still be a valid block.
+
+  [guard] FAIL-CLOSED - analysis error: Simulated internal failure
+  [OK] ASSERTION PASSED: fail-closed path returned block
+  [OK] ASSERTION PASSED: risk_score=0.5000 >= 0.5
+
+== Scenario 4: SCHEMA VALIDATION on garbage inputs ==
+  [OK] 'empty string'       -> verdict=allow risk=0.0000
+  [OK] 'None'               -> verdict=allow risk=0.4999
+  [OK] 'binary-like'        -> verdict=allow risk=0.4329
+  [OK] 'very long'          -> verdict=allow risk=0.4000
+  [OK] 'integer'            -> verdict=allow risk=0.4999
+  [OK] 'list'               -> verdict=allow risk=0.2752
+
+============================================================
+  ALL SCENARIOS PASSED [OK]
+============================================================
+

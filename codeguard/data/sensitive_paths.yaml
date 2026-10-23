@@ -1,0 +1,51 @@
+# Sensitive filesystem paths — reading these is a credential-theft signal.
+# `hard: true`  → any read is high-confidence secret_access.
+# `token`       → substring that must appear in the code for a match.
+paths:
+  - "~/.aws/credentials"
+  - "~/.aws/config"
+  - "~/.ssh/id_rsa"
+  - "~/.ssh/id_dsa"
+  - "~/.ssh/id_ed25519"
+  - "~/.ssh/id_ecdsa"
+  - "~/.ssh/authorized_keys"
+  - "~/.docker/config.json"
+  - "~/.kube/config"
+  - "~/.netrc"
+  - "~/.git-credentials"
+  - "~/.npmrc"
+  - "~/.pypirc"
+  - "~/.config/gh/hosts.yml"
+  - "~/.password-store"
+  - "/etc/shadow"
+  - "/etc/sudoers"
+  - "/etc/passwd"
+  - "/proc/self/environ"
+  - "/proc/*/environ"
+  - "id_rsa"
+  - "credentials.json"
+  - "service-account.json"
+  - ".env"
+  - "wallet.dat"
+  - "keystore"
+  - "Login Data"          # Chromium saved passwords
+  - "cookies.sqlite"
+  - "keychain"
+
+# Browser / wallet directories
+directories:
+  - "~/.mozilla/firefox"
+  - "~/.config/google-chrome"
+  - "~/.config/chromium"
+  - "~/Library/Application Support/Google/Chrome"
+  - "~/.electrum"
+  - "~/.bitcoin"
+  - "~/.ethereum"
+
+# Benign lookalikes — these should NOT raise secret_access on their own.
+benign_lookalikes:
+  - "~/.config/myapp/settings.json"
+  - "~/.config/app/config.json"
+  - "~/.local/share"
+  - "settings.json"
+  - "config.yaml"
