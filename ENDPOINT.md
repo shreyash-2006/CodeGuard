@@ -112,6 +112,29 @@ powershell -ExecutionPolicy Bypass -File scripts\expose.ps1
 
 ---
 
+## 7b. Alternative — Cloudflare quick tunnel (no account, no interstitial)
+
+If you don't want an ngrok account (or want to avoid the free-tier interstitial),
+use a Cloudflare quick tunnel instead. It needs no signup and injects no warning page:
+
+```bash
+# download once:
+#   https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe
+cloudflared tunnel --url http://127.0.0.1:8000 --no-autoupdate
+# prints:  https://<random-words>.trycloudflare.com
+```
+
+Public endpoint = that base + the route:
+
+```
+https://<random-words>.trycloudflare.com/check
+```
+
+Same caveats as ngrok: the URL is random and dies when the process stops, so keep
+both windows open and don't restart it while the URL is in use.
+
+---
+
 ## 8. Test the PUBLIC URL (not localhost)
 
 ```bash
