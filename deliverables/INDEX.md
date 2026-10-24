@@ -39,8 +39,3 @@ python eval/eval_csv.py examples/sample_codes.csv
 # run the service
 python -m uvicorn codeguard.api:app --host 0.0.0.0 --port 8000 --workers 1
 ```
-
-> The 42-snippet `codeguard_dev.jsonl` dev sample is provided by the organizer and
-> is **not** committed (its fake demo credentials trip secret scanners). Place it
-> at the repo root to reproduce the dev-sample numbers; the model in `models/` is
-> committed, so the service runs without it.
