@@ -6,6 +6,7 @@ CodeGuard accepts a code string and returns a fixed-schema allow/block verdict �
 **🔗 Live deployment:** dashboard **<https://codeguard-bdmu.onrender.com/ui/>** ·
 judge endpoint **`POST https://codeguard-bdmu.onrender.com/check`** ·
 health **`GET https://codeguard-bdmu.onrender.com/health`**
+**🔗 Cloudflare Endpoint:** dashboard **<https://cancel-subjects-meyer-ethics.trycloudflare.com/ui/>** ·
 
 ```
 POST /check  {"code": "..."}  ->  {"verdict","risk_score","categories","code_language","reason","vulnerable_lines"}
