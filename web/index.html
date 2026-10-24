@@ -4,18 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeGuard — Real-time Code Security</title>
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body class="dark-theme">
     <header>
         <div class="header-content">
-            <div class="title-group">
-                <h1>CodeGuard</h1>
-                <p class="subtitle">Real-time pre-execution safety for LLM-generated code</p>
+            <div class="brand">
+                <div class="logo-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3l7 3v6c0 4.5-3 7.4-7 9-4-1.6-7-4.5-7-9V6l7-3z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <div class="title-group">
+                    <h1>CodeGuard</h1>
+                    <p class="subtitle">Real-time pre-execution safety for LLM-generated code</p>
+                </div>
             </div>
             <div id="health-indicator" class="health-indicator">
                 <span class="dot"></span>
-                <span class="status-text">Checking health...</span>
+                <span class="status-text">Checking health…</span>
             </div>
         </div>
         <nav>
@@ -51,7 +60,7 @@
                     </div>
                     <div class="editor-wrapper">
                         <div class="line-numbers" id="line-numbers"></div>
-                        <textarea id="code-input" placeholder="Paste code here..." spellcheck="false"></textarea>
+                        <textarea id="code-input" placeholder="Paste code here…" spellcheck="false"></textarea>
                     </div>
                     <div class="button-group">
                         <button id="analyze-btn" class="primary-btn">Analyze</button>
@@ -65,14 +74,14 @@
                     <div class="verdict-header">
                         <div id="verdict-badge" class="badge">ALLOW</div>
                         <div class="risk-info">
-                            <span class="risk-label">Risk Score:</span>
+                            <span class="risk-label">Risk</span>
                             <span id="risk-value">0.00</span>
                         </div>
                         <div class="latency-info">
-                            <span id="latency-value">0</span>ms
+                            <span id="latency-value">0</span> ms
                         </div>
                     </div>
-                    
+
                     <div class="risk-gauge-container">
                         <div class="risk-gauge">
                             <div id="risk-bar" class="risk-bar"></div>
@@ -141,8 +150,10 @@
         <section id="intercept-tab" class="tab-content">
             <div class="intercept-container">
                 <h2>Interception Proof</h2>
-                <p>Demonstrates that CodeGuard actually prevents execution of malicious code.</p>
-                <button id="run-intercept-btn" class="primary-btn">Run Interception Proof</button>
+                <p>Demonstrates that CodeGuard actually prevents execution of malicious code — the blocked snippet never creates its marker file.</p>
+                <div class="button-group">
+                    <button id="run-intercept-btn" class="primary-btn">Run Interception Proof</button>
+                </div>
                 <div id="intercept-results" class="intercept-results hidden">
                     <div id="intercept-banner" class="banner">PASS</div>
                     <div id="intercept-details"></div>
@@ -154,22 +165,22 @@
         <section id="about-tab" class="tab-content">
             <div class="about-container">
                 <h2>About CodeGuard</h2>
-                <p>CodeGuard is a lightweight, local checkpoint that analyzes AI-generated code <strong>before</strong> it runs. It uses a combination of rule-based intent detection and a local ML model (TF-IDF + Logistic Regression) to provide high-accuracy safety verdicts.</p>
-                
+                <p>CodeGuard is a lightweight, local checkpoint that analyzes AI-generated code <strong>before</strong> it runs. It combines intent/story rule detectors with a local calibrated ML model to return a fast, explainable safety verdict.</p>
+
                 <h3>Architecture</h3>
                 <ul>
                     <li><strong>Backend:</strong> FastAPI (Python)</li>
-                    <li><strong>Analysis:</strong> Preprocess → LangID → Deobfuscate → Rules → ML → Fusion → Explain</li>
+                    <li><strong>Analysis:</strong> Preprocess → LangID → Segment → Deobfuscate → Parse → Rules → ML → Fusion → Explain</li>
                     <li><strong>Inference:</strong> CPU-only, scikit-learn</li>
                 </ul>
 
                 <h3>Latency</h3>
-                <p>Targets p50 &lt; 20ms, p95 &lt; 100ms for typical snippets. Measured p50 ≈ 6 ms, p95 ≈ 18 ms.</p>
+                <p>Targets p50 &lt; 20 ms, p95 &lt; 100 ms for typical snippets. Measured p50 ≈ 19 ms, p95 ≈ 22 ms (typical &lt; 5 KB).</p>
 
                 <h3>Model</h3>
                 <ul>
-                    <li>TF-IDF char n-gram (2–4) → One-vs-Rest Logistic Regression</li>
-                    <li>Artifact ≈ 1.1 MB, loaded once at startup (<code>models_loaded</code> on <code>/health</code>)</li>
+                    <li>char (2–5) + word (1–2) TF-IDF + dense features → calibrated One-vs-Rest Logistic Regression</li>
+                    <li>Artifact ≈ 3.2 MB, loaded once at startup (<code>models_loaded</code> on <code>/health</code>)</li>
                     <li>Missing/corrupt model ⇒ automatic rules-only degrade</li>
                 </ul>
 
@@ -195,6 +206,15 @@
         </section>
     </main>
 
-    <script src="app.js?v=4"></script>
+    <footer class="site-footer">
+        <span>CodeGuard · pre-execution code safety · MIT licensed</span>
+        <span>
+            <a href="https://github.com/shreyash-2006/CodeGuard" target="_blank" rel="noopener">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="https://codeguard-bdmu.onrender.com/health" target="_blank" rel="noopener">API health</a>
+        </span>
+    </footer>
+
+    <script src="app.js?v=5"></script>
 </body>
 </html>
