@@ -9,7 +9,7 @@ Mapping of the required submission deliverables to files in this repository.
 | # | Deliverable | Status | Location |
 |---|---|---|---|
 | 1 | Public GitHub repository | **done** | <https://github.com/shreyash-2006/CodeGuard> (branch `main`) |
-| 2 | Runnable service + submit endpoint URL | **done** | **<https://codeguard-bdmu.onrender.com>** (`/check`) · [`DEPLOYMENT.md`](DEPLOYMENT.md) |
+| 2 | Runnable service + submit endpoint URL | **done** | **<https://codeguard-bdmu.onrender.com>** **<https://cancel-subjects-meyer-ethics.trycloudflare.com/ui/>**|
 | 3 | Interception-proof demo script | **done** | `demo/intercept_check.py` · [`INTERCEPTION.md`](INTERCEPTION.md) · `evidence_interception.txt` |
 | 4 | Dev-sample evaluation + efficiency note | **done** | [`EVALUATION.md`](EVALUATION.md) · `evidence_dev_eval.txt` · `evidence_latency.txt` · `evidence_holdout_metrics.json` |
 | 5 | README (architecture, components+licenses, assumptions, limitations) | **done** | [`README.md`](README.md) |
